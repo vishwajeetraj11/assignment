@@ -14,7 +14,7 @@ const SelectedUserCard = (props: SelectedUserCardType) => {
     <div
       key={user.email}
       className={clsx(
-        "flex items-center gap-2 pr-2 bg-gray-300 rounded-full",
+        "flex items-center gap-2 pr-2 rounded-full",
         highlightLastUser ? "bg-blue-100" : "bg-gray-300"
       )}
     >
