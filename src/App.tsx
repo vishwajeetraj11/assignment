@@ -13,24 +13,32 @@ function App() {
     query,
     removeSelectedUser,
     selectedUsers,
-    setSuggestionsVisible,
     suggestionsRef,
     suggestionsVisible,
     filteredUsers,
+    onInputFocus,
+    lastUserHighlighted,
+    setHighlightedIndex,
   } = useChipInput();
 
   return (
     <main className="p-4 sm:p-10 relative">
       <h1 className="text-2xl text-center">Pick Users</h1>
+      {/* Selected Users */}
       <div
         className={clsx(
           "flex flex-wrap gap-2 max-w-[800px] mx-auto mt-10 border-b pb-2"
         )}
       >
-        {selectedUsers.map((user) => (
+        {selectedUsers.map((user, index) => (
           <SelectedUserCard
             removeSelectedUser={removeSelectedUser}
             user={user}
+            key={user.email}
+            index={index}
+            highlightLastUser={
+              lastUserHighlighted && index === selectedUsers.length - 1
+            }
           />
         ))}
         <input
@@ -40,9 +48,7 @@ function App() {
           onKeyDown={onKeyDown}
           className="h-[40px] px-4 outline-none"
           placeholder="Add new user..."
-          onFocus={() => {
-            setSuggestionsVisible(true);
-          }}
+          onFocus={onInputFocus}
         />
         {/* Suggestions */}
         <div
@@ -50,14 +56,15 @@ function App() {
           className="shadow-lg border absolute bg-white max-h-[300px] overflow-auto"
         >
           {suggestionsVisible &&
-            filteredUsers.map((user, i) => (
+            filteredUsers.map((user, index) => (
               <UserCard
                 highlightedIndex={highlightedIndex}
-                index={i}
+                index={index}
                 onSuggestedUserClick={onSuggestedUserClick}
                 query={query}
                 user={user}
                 key={user.email}
+                setHighlightedIndex={setHighlightedIndex}
               />
             ))}
         </div>

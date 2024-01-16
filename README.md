@@ -1,3 +1,16 @@
+# Chip Input
+Specifications: 
+1. When you click on the input field, a list of items will appear.
+2. As you type, the list should show only items that match what you're typing.
+3. Clicking on an item should turn it into a chip at the top, and the input field should adjust automatically.
+4. Once an item becomes a chip, it should no longer be in the list.
+5. Each chip has an "X" icon. Clicking it removes the chip and adds the item back to the list.
+6. Resize Event Handler Added: On Window Size change the suggestions should remain below the input.
+7. Click Away Handler Added: On Click on somewhere else than input or suggestions, the suggestions should hide.
+8. When the input is blank and the user presses backspace, the last chip (for example, Nick Giannopoulos) should get highlighted and on again pressing backspace it should get deleted
+
+
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.

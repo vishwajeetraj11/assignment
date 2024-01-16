@@ -7,18 +7,28 @@ type UserCardType = {
   user: (typeof users)[number];
   query: string;
   index: number;
+  setHighlightedIndex: React.Dispatch<React.SetStateAction<number>>;
 };
 
 export const UserCard = (props: UserCardType) => {
-  const { onSuggestedUserClick, highlightedIndex, user, query, index } = props;
+  const {
+    onSuggestedUserClick,
+    highlightedIndex,
+    user,
+    query,
+    index,
+    setHighlightedIndex,
+  } = props;
   return (
     <button
       type="button"
       onClick={() => onSuggestedUserClick(user)}
       className={clsx(
-        "hover:bg-slate-200 grid px-3 py-1 items-center gap-2 grid-cols-[40px_100px_110px] sm:grid-cols-[40px_100px_210px]",
+        "grid px-3 py-1 items-center gap-2 grid-cols-[40px_100px_110px] sm:grid-cols-[40px_100px_210px]",
         highlightedIndex === index && "bg-slate-200"
       )}
+      onMouseEnter={() => setHighlightedIndex(index)}
+      onMouseLeave={() => setHighlightedIndex(-1)}
       key={user.email}
     >
       <img src={user.profilePicture} className="rounded-full" />

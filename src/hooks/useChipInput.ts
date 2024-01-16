@@ -8,6 +8,8 @@ export const useChipInput = () => {
     const [suggestionsVisible, setSuggestionsVisible] = useState<boolean>(false);
     const inputElementRef = useRef<HTMLInputElement>(null);
     const suggestionsRef = useRef<HTMLDivElement>(null);
+    const [lastUserHighlighted, setLastUserHighlighted] = useState<boolean>(false);
+
 
     const updateSuggestionsPosition = () => {
         if (inputElementRef.current && suggestionsRef.current) {
@@ -37,7 +39,24 @@ export const useChipInput = () => {
             setSelectedUsers((prevUsers) => prevUsers.concat(selectedUser));
             setQuery("");
             setHighlightedIndex(-1);
+        } else if (e.key === 'Backspace' && query === '' && selectedUsers.length > 0) {
+            if (!lastUserHighlighted) {
+                e.preventDefault();
+                setLastUserHighlighted(true);
+            } else {
+                const newSelectedUsers = selectedUsers.slice(0, selectedUsers.length - 1);
+                setSelectedUsers(newSelectedUsers);
+                setLastUserHighlighted(false);
+            }
+        } else if (query !== '' || e.key !== 'Backspace') {
+            // Any other key or input clears the highlighted state
+            setLastUserHighlighted(false);
         }
+    };
+
+    const onInputFocus = () => {
+        setLastUserHighlighted(false);
+        setSuggestionsVisible(true);
     };
 
     const removeSelectedUser = (email: string) => {
@@ -81,11 +100,9 @@ export const useChipInput = () => {
     };
 
     useEffect(() => {
-        // Attach event listener to document
         document.addEventListener("mousedown", handleDocumentClick);
 
         return () => {
-            // Clean up: remove event listener from document
             document.removeEventListener("mousedown", handleDocumentClick);
         };
     }, []);
@@ -106,10 +123,12 @@ export const useChipInput = () => {
         onInputChange,
         onKeyDown,
         suggestionsVisible,
-        setSuggestionsVisible,
         suggestionsRef,
         onSuggestedUserClick,
         highlightedIndex,
-        filteredUsers
+        filteredUsers,
+        onInputFocus,
+        lastUserHighlighted,
+        setHighlightedIndex
     }
 }
