@@ -8,7 +8,7 @@ Specifications:
 6. Resize Event Handler Added: On Window Size change the suggestions should remain below the input.
 7. Click Away Handler Added: On Click on somewhere else than input or suggestions, the suggestions should hide.
 8. When the input is blank and the user presses backspace, the last chip (for example, Nick Giannopoulos) should get highlighted and on again pressing backspace it should get deleted
-
+9. Scroll the suggestion user into view if not already.
 
 
 # React + TypeScript + Vite
