@@ -41,7 +41,6 @@ export const useChipInput = () => {
                 scrollToSuggestion(newIndex)
                 return newIndex;
             }
-
             );
         } else if (e.key === "ArrowUp") {
             e.preventDefault();
@@ -86,6 +85,7 @@ export const useChipInput = () => {
         updateSuggestionsPosition();
     }, [selectedUsers]);
 
+    // resize handler
     useEffect(() => {
         const handleResize = () => {
             updateSuggestionsPosition();
@@ -100,10 +100,12 @@ export const useChipInput = () => {
         setQuery("");
     };
 
+    // On suggestions visibility toggle and query change, no suggestion should be highlighted.
     useEffect(() => {
         setHighlightedIndex(-1);
     }, [suggestionsVisible, query]);
 
+    // Click Away Handler 
     const handleDocumentClick = (event: MouseEvent) => {
         const target = event.target as Node;
         if (
@@ -115,10 +117,9 @@ export const useChipInput = () => {
             setSuggestionsVisible(false);
         }
     };
-
+    // Click Away Listener
     useEffect(() => {
         document.addEventListener("mousedown", handleDocumentClick);
-
         return () => {
             document.removeEventListener("mousedown", handleDocumentClick);
         };
