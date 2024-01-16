@@ -24,15 +24,32 @@ export const useChipInput = () => {
         setQuery(e.target.value);
     };
 
+    const scrollToSuggestion = (index: number) => {
+        const suggestionsContainer = suggestionsRef.current;
+        const suggestionElement = suggestionsContainer?.children[index] as HTMLDivElement | undefined;
+
+        if (suggestionElement) {
+            suggestionElement.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+    }
+
     const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === "ArrowDown") {
             e.preventDefault();
-            setHighlightedIndex((prevIndex) =>
-                prevIndex < filteredUsers.length - 1 ? prevIndex + 1 : prevIndex
+            setHighlightedIndex((prevIndex) => {
+                const newIndex = prevIndex < filteredUsers.length - 1 ? prevIndex + 1 : prevIndex;
+                scrollToSuggestion(newIndex)
+                return newIndex;
+            }
+
             );
         } else if (e.key === "ArrowUp") {
             e.preventDefault();
-            setHighlightedIndex((prevIndex) => (prevIndex > 0 ? prevIndex - 1 : 0));
+            setHighlightedIndex((prevIndex) => {
+                const newIndex = (prevIndex > 0 ? prevIndex - 1 : 0)
+                scrollToSuggestion(newIndex)
+                return newIndex;
+            })
         } else if (e.key === "Enter" && highlightedIndex >= 0) {
             e.preventDefault();
             const selectedUser = filteredUsers[highlightedIndex];
